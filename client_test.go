@@ -13,7 +13,7 @@ import (
 	"github.com/ghifari160/zei"
 )
 
-const userAgent = "Test_Zei/0.1"
+const userAgent = "Test_Zei/0.2"
 
 func TestGet(t *testing.T) {
 	testClient(t, config(), func(client *zei.Client, url string) (*http.Response, error) {

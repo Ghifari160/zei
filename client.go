@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-const DefaultUserAgent = "Zei/0.1"
+const DefaultUserAgent = "Zei/0.2"
 
 // ClientInterface is the interface common to [net/http.Client] and Client.
 // Utilizing this interface can assist in migrating existing code from direct usage of
