@@ -1,0 +1,53 @@
+name: Release
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+      - run: go install github.com/ghifari160/changelog@0.2.0
+      - name: Setup variables
+        id: get_vars
+        run: |
+          TAG=${GITHUB_REF/refs\/tags\//}
+          echo "TAG_NAME=$TAG" >> $GITHUB_ENV
+      - name: Fetch release body
+        id: release
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          releaseName: ${{ env.TAG_NAME }}
+          draft: true
+          doNotFailIfNotFound: true
+      - name: Write release body
+        env:
+          RELEASE_BODY: ${{ steps.release.outputs.body }}
+        run: |
+          echo "$RELEASE_BODY" >> RELEASE.md
+          echo "## Changelog" >> RELEASE.md
+          changelog get -v $TAG_NAME >> RELEASE.md
+      - name: Update release
+        uses: Wandalen/wretry.action@v3
+        with:
+          action: ncipollo/release-action@v1
+          attempt_limit: 5
+          attempt_delay: 250
+          with: |
+              allowUpdates: true
+              name: ${{ env.TAG_NAME }}
+              draft: false
+              omitDraftDuringUpdate: true
+              omitPrereleaseDuringUpdate: true
+              updateOnlyUnreleased: true
+              tag: ${{ env.TAG_NAME }}
+              bodyFile: RELEASE.md
