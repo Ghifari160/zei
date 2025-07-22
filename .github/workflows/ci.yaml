@@ -2,20 +2,24 @@ name: Build and test
 on:
   push:
     paths-ignore:
-      - "README.md"
-      - "CHANGELOG.md"
-      - ".gitignore"
       - ".gitattributes"
+      - ".gitignore"
+      - ".github/workflows/release.yaml"
+      - "CHANGELOG.md"
+      - "LICENSE"
+      - "README.md"
     branches:
       - "*"
     tags-ignore:
       - "*"
   pull_request:
     paths-ignore:
-      - "README.md"
-      - "CHANGELOG.md"
-      - ".gitignore"
       - ".gitattributes"
+      - ".gitignore"
+      - ".github/workflows/release.yaml"
+      - "CHANGELOG.md"
+      - "LICENSE"
+      - "README.md"
     branches:
       - "*"
     tags-ignore:
