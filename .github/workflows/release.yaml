@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: "go.mod"
-      - run: go install github.com/ghifari160/changelog@0.2.0
+      - run: go install github.com/ghifari160/changelog@0.3.0
       - name: Setup variables
         id: get_vars
         run: |
